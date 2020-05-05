@@ -1,0 +1,36 @@
+/*
+Given two arrays, write a function to compute their intersection.
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+*/
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize)
+{
+    bool* flags = (bool*)malloc(sizeof(bool)*nums1Size);
+    memset(flags, 0x00, sizeof(bool)*nums1Size);
+    int* rv = (int*)malloc(sizeof(int)*nums1Size);
+    memset(rv, 0x00, sizeof(int)*nums1Size);    
+    (*returnSize) = 0;
+    
+    for(int i = 0; i < nums2Size; i++)
+    {
+        for(int j = 0; j < nums1Size; j++)
+        {
+            if(nums2[i] == nums1[j] && flags[j] == false)
+            {
+                rv[(*returnSize)] = nums2[i];
+                (*returnSize)++;
+                flags[j] = true;
+                break;
+            }
+        }
+    }
+        
+    return rv;
+}
