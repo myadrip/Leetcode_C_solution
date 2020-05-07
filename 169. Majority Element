@@ -1,0 +1,15 @@
+//https://leetcode.com/problems/majority-element/submissions/
+
+
+int comp(void* a, void* b)
+{
+   return *(int*)a - *(int*)b;
+}
+
+int majorityElement(int* nums, int numsSize)
+{
+    qsort(nums, numsSize, sizeof(int), comp);
+    
+    return nums[numsSize/2];
+    
+}
