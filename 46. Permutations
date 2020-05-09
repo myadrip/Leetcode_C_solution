@@ -1,0 +1,58 @@
+//https://leetcode.com/problems/permutations/
+
+void func(int* nums, int numsSize, int nums_order,
+         int** rv, int* rv_cnt, int rv_order, int* temp)
+{
+    temp[rv_order]= nums_order;
+    rv_order++;
+    if(rv_order == numsSize)
+    {
+        for(int i = 0; i < numsSize; i++)
+        {
+            rv[(*rv_cnt)][i] = nums[temp[i]];
+        }   
+        (*rv_cnt)++;
+        return;
+    }
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        bool flag = false;
+        for(int j = 0; j < rv_order; j++)
+        {
+            if(temp[j] == i)
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag == false)
+            func(nums, numsSize, i, rv, rv_cnt, rv_order, temp);
+    }
+    return;
+}
+int** permute(int* nums, int numsSize, int* returnSize, int** returnColumnSizes)
+{
+    (*returnSize) = 1;
+    for(int i = 1; i <= numsSize; i++)
+        (*returnSize) = (*returnSize)*i;
+    (*returnColumnSizes) = (int*)malloc(sizeof(int)*(*returnSize));
+    for(int i = 0; i < (*returnSize); i++)
+        (*returnColumnSizes)[i] = numsSize;
+    
+    int** rv = (int**)malloc(sizeof(int*)*(*returnSize));
+    for(int i = 0; i < (*returnSize); i++)
+    {
+        rv[i] = (int*)malloc(sizeof(int)*numsSize);
+        memset(rv[i], 0x00, sizeof(int)*numsSize);
+    }
+    int* rv_cnt = 0;
+    int* temp = (int*)malloc(sizeof(int)*numsSize);
+    memset(temp, 0x00, sizeof(int)*numsSize);
+    for(int i = 0; i < numsSize; i++)
+    {
+        func(nums, numsSize, i, rv, &rv_cnt, 0, temp);
+    }
+    free(temp);
+    return rv;
+}
