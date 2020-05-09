@@ -1,0 +1,41 @@
+//https://leetcode.com/problems/check-if-it-is-a-straight-line/
+
+bool checkStraightLine(int** coordinates, int coordinatesSize, int* coordinatesColSize)
+{
+    if(coordinatesSize < 3)
+        return true;
+    bool row_Flat = false;
+    bool col_Flat = false;
+    double x = 0;
+    double y = 0;
+    if(coordinates[1][1] == coordinates[0][1])
+        row_Flat = true;
+    else if(coordinates[1][0] == coordinates[0][0])
+        col_Flat = true;
+    else
+    {
+        x = (coordinates[1][1] - coordinates[0][1])/(coordinates[1][0] - coordinates[0][0]);
+        y = coordinates[0][1] -x*coordinates[0][0];
+    }
+    
+    for(int i = 2; i < coordinatesSize; i++)
+    {
+        if(row_Flat)
+        {
+            if(coordinates[i][1] != coordinates[0][1])
+                return false;
+        }
+        else if(col_Flat)
+        {
+            if(coordinates[i][0] != coordinates[0][0])
+                return false;
+        }
+        else
+        {
+            if(x*coordinates[i][0] + y != coordinates[i][1])
+                return false;
+        }
+    }
+    
+    return true;
+}
