@@ -1,32 +1,25 @@
 //https://leetcode.com/problems/move-zeroes/submissions/
+
+void moveZeroes(int* nums, int numsSize)
 {
-    int zero_cnt = 0;
+    int idx = -1;
     
-    for(int i = 0; i < numsSize; i++)
+    for(int zero = 0; zero < numsSize; zero++)
     {
-        if(nums[i] == 0)
-            zero_cnt++;
-    }
-    for(int i = 0; i < numsSize; i++)
-    {
-        if( i < numsSize-zero_cnt)
+        if(nums[zero] == 0)
         {
-            if(nums[i] == 0)
+            if(idx < 0)
+                idx = zero+1;
+            for(; idx < numsSize; idx++)
             {
-                for(int j = i+1; j < numsSize; j++)
-                {
-                    if(nums[j] != 0)
-                    {
-                        nums[i] = nums[j];
-                        nums[j] = 0;
-                        break;
-                    }
-                }
+                if(nums[idx] != 0)
+                    break;
             }
-        }
-        else
-        {
-            nums[i] = 0;
+            
+            if(idx == numsSize)
+                return;             
+            nums[zero] = nums[idx];
+            nums[idx] = 0;
         }
     }
     return;
