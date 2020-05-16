@@ -1,0 +1,33 @@
+//https://leetcode.com/problems/move-zeroes/submissions/
+{
+    int zero_cnt = 0;
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(nums[i] == 0)
+            zero_cnt++;
+    }
+    for(int i = 0; i < numsSize; i++)
+    {
+        if( i < numsSize-zero_cnt)
+        {
+            if(nums[i] == 0)
+            {
+                for(int j = i+1; j < numsSize; j++)
+                {
+                    if(nums[j] != 0)
+                    {
+                        nums[i] = nums[j];
+                        nums[j] = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            nums[i] = 0;
+        }
+    }
+    return;
+}
