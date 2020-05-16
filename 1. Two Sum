@@ -1,0 +1,23 @@
+//https://leetcode.com/problems/two-sum/
+
+int* twoSum(int* nums, int numsSize, int target, int* returnSize)
+{
+    int* rv = (int*)calloc(2, sizeof(int));
+    (*returnSize) = 2;
+    
+    for(int n1 = 0; n1 < numsSize-1; n1++)
+    {
+        for(int n2 = n1+1; n2 < numsSize; n2++)
+        {
+            if(nums[n1]+nums[n2] == target)
+            {
+                rv[0] = n1;
+                rv[1] = n2;
+                return rv;
+            }
+        }
+    }
+
+    free(rv);
+    return NULL;
+}
