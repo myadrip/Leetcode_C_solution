@@ -1,0 +1,86 @@
+//https://leetcode.com/problems/valid-sudoku/
+
+bool search_rows(char** board, int boardSize)
+{
+    bool map[9] = {0, };
+    
+    for(int row = 0; row < boardSize; row++)
+    {
+        memset(map, 0x00, sizeof(bool)*9);
+        for(int col = 0; col < boardSize; col++)
+        {
+            if(board[row][col] != '.' )
+            {
+                if(map[board[row][col] -'1'] == false)
+                {
+                    map[board[row][col] -'1'] = true;
+                }
+                else
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+bool search_cols(char** board, int boardSize)
+{
+    bool map[9] = {0, };
+    
+    for(int col = 0; col < boardSize; col++)
+    {
+        memset(map, 0x00, sizeof(bool)*9);
+        for(int row = 0; row < boardSize; row++)
+        {
+            if(board[row][col] != '.' )
+            {
+                if(map[board[row][col] -'1'] == false)
+                {
+                    map[board[row][col] -'1'] = true;
+                }
+                else
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+bool search_sections(char** board, int boardSize)
+{
+    bool map[9] = {0, };
+    
+    for(int row = 0; row < boardSize; row = row+3)
+    {
+        for(int col = 0; col < boardSize; col = col+3)
+        {
+            memset(map, 0x00, sizeof(bool)*9);
+            for(int section_row = row; section_row < row+3; section_row++)
+            {
+                for(int section_col = col; section_col < col+3; section_col++)
+                {
+                    if(board[section_row][section_col] != '.' )
+                    {
+                        if(map[board[section_row][section_col] -'1'] == false )
+                        {
+                            map[board[section_row][section_col] -'1'] = true;
+                        }
+                        else
+                            return false;
+                    }
+                }
+            }       
+        }
+    }
+    return true;
+}
+
+bool isValidSudoku(char** board, int boardSize, int* boardColSize)
+{  
+    if(search_rows(board, boardSize) == false)
+        return false;
+    if(search_cols(board, boardSize) == false)
+        return false;
+    if(search_sections(board, boardSize) == false)
+        return false;
+    
+    return true;
+}
