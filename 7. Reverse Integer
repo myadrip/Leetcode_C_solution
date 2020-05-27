@@ -1,0 +1,19 @@
+//https://leetcode.com/problems/reverse-integer/
+
+
+int reverse(int x)
+{
+    double rv = 0;
+    
+    while(1)
+    {
+        rv = rv*10 + x%10;
+        x = x/10;
+        if(x == 0)
+            break;
+    }
+    if(rv > INT_MAX || rv < INT_MIN)
+        return 0;
+    
+    return (int)rv;
+}
