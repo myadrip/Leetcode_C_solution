@@ -1,1 +1,128 @@
 //https://leetcode.com/problems/sudoku-solver/
+
+
+
+bool valid(char** board, int boardSize, int row, int col, int data)
+{
+    int map_1[10] = {0,};
+    int map_2[10] = {0,};
+    int map_3[10] = {0,};
+    board[row][col] = data;
+    
+    for(int i = 0; i < boardSize; i++)
+    {
+        if(board[row][i] != '.')
+        {
+            map_1[board[row][i] - '1']++;
+            if(map_1[board[row][i] - '1'] > 1)
+                return false;                
+        }
+        
+        if(board[i][col] != '.')
+        {
+            map_2[board[i][col] - '1']++;
+            if(map_2[board[i][col] - '1'] > 1)
+                return false;
+        }
+    }
+    
+    int box_row = (row/3)*3;
+    int box_col = (col/3)*3;
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            if(board[box_row+i][box_col+j] != '.')
+            {
+                map_3[board[box_row+i][box_col+j] - '1']++;
+                if(map_3[board[box_row+i][box_col+j] - '1'] > 1)
+                    return false;
+            }
+        }
+    }
+    
+    return true;
+}
+bool func(char** board, int boardSize, bool** original, int row, int col, int data)
+{
+    if(valid(board, boardSize, row, col, data) == false)
+    {
+        board[row][col] = '.';
+        return false;
+    }
+    
+    if(col == boardSize-1 && row == boardSize-1)
+        return true;
+    
+    int next_row = row;
+    int next_col = col+1;
+    bool flag = false;
+    for(; next_row < boardSize; next_row++)
+    {
+        for(; next_col < boardSize; next_col++)
+        { 
+            if(original[next_row][next_col] == false)
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+            break;
+        else
+            next_col = 0;
+    }
+    if(flag == false)
+        return true;
+    for(int n = '1'; n <= '9'; n++)
+    {
+        if(func(board, boardSize, original, next_row, next_col, n))
+            return true;
+    }
+    board[next_row][next_col] = '.';
+    return false;
+}
+
+void solveSudoku(char** board, int boardSize, int* boardColSize)
+{
+    bool** original = (bool**)malloc(sizeof(bool*)*boardSize);
+    for(int i = 0; i < boardSize; i++)
+    {
+        original[i] = (bool*)malloc(sizeof(bool)*boardSize);
+    }
+    
+    for(int row = 0; row < boardSize; row++)
+    {
+        for(int col = 0; col < boardSize; col++)
+        {
+            if(board[row][col] != '.')
+                original[row][col] = true;
+            else
+                original[row][col] = false;
+        }
+    }
+
+    int row = 0;
+    int col = 0;
+    bool flag = false;
+    for(row = 0; row < boardSize; row++)
+    {
+        for(col = 0; col < boardSize; col++)
+        {
+            if(original[row][col] == false)
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+            break;
+    }
+    
+    for(int n = '1'; n <= '9'; n++)
+    {
+        if(func(board, boardSize, original, row, col, n))
+            return;
+    }
+    return;
+}
