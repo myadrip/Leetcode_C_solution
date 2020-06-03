@@ -1,0 +1,42 @@
+//https://leetcode.com/problems/k-closest-points-to-origin/
+
+
+int comp(const void* a, const void* b)
+{
+    int* E1 = *(int**)a;
+    int* E2 = *(int**)b;
+
+    return E1[1]-E2[1];
+}
+
+int** kClosest(int** points, int pointsSize, int* pointsColSize, int K, int* returnSize, int** returnColumnSizes)
+{
+    *returnSize = K;
+    *returnColumnSizes = (int*)malloc(sizeof(int)*K);
+    int** rv = (int**)malloc(sizeof(int*)*K);
+    for(int i = 0; i < K; i++)
+    {
+        (*returnColumnSizes)[i] = 2;
+        rv[i] = calloc(2, sizeof(int));
+    }
+    
+    int** buf = (int**)malloc(sizeof(int*)*pointsSize);
+    for(int i = 0; i < pointsSize; i++)
+        buf[i] = (int*)calloc(2, sizeof(int));
+    
+    for(int i = 0; i < pointsSize; i++)
+    {
+        buf[i][0] = i;
+        buf[i][1] = points[i][0]*points[i][0] + points[i][1]*points[i][1];
+    }
+    qsort(buf, pointsSize, sizeof(int*), comp);
+       
+    for(int i = 0; i < K; i++)
+    {
+        memcpy(rv[i], points[buf[i][0]], sizeof(int)*2);
+    }
+    
+    
+    
+    return rv;
+}
