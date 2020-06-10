@@ -1,0 +1,17 @@
+//https://leetcode.com/problems/power-of-two/
+
+bool isPowerOfTwo(int n)
+{
+    double base = 1;
+    
+    while(base < n)
+    {
+        base = base*2;
+    }
+    
+    if(base == n)
+        return true;
+    else
+        return false;
+
+}
