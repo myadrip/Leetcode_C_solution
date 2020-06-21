@@ -1,0 +1,19 @@
+//https://leetcode.com/problems/delete-node-in-a-linked-list/
+
+void deleteNode(struct ListNode* node) 
+{
+    struct ListNode* p1 = node;
+    struct ListNode* p2 = node->next;
+    
+    while(p2->next != NULL)
+    {
+        p1->val = p2->val;
+        p1 = p2;
+        p2 = p2->next;
+    }
+    p1->val = p2->val;    
+    free(p2);
+    p1->next = NULL;
+    
+    return;
+}
