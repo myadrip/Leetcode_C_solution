@@ -1,0 +1,48 @@
+//https://leetcode.com/problems/count-and-say/
+
+#define SIZE 10000
+
+void say(char* arr, char* buf)
+{
+    memset(buf, 0x00, sizeof(sizeof(char)*SIZE));
+    int pos = 1;
+    int idx = 0;
+    buf[0] = '1';
+    buf[1] = arr[idx];
+    
+    idx++;
+    
+    while(arr[idx] != NULL)
+    {
+        if(arr[idx] == arr[idx-1])
+                buf[pos-1]++;
+        else
+        {
+            pos++;
+            buf[pos] = '1';            
+            pos++;
+            buf[pos] = arr[idx];            
+        }
+        idx++;
+    }
+    
+    memcpy(arr, buf, sizeof(char)*SIZE);
+    return;
+}
+
+char* countAndSay(int n)
+{
+    char* rv = (char*)malloc(sizeof(char)*SIZE);
+    memset(rv, 0x00, sizeof(sizeof(char)*SIZE));    
+    char* buf = (char*)malloc(sizeof(char)*SIZE);
+    memset(buf, 0x00, sizeof(char)*SIZE);
+
+    rv[0] = '1';
+    
+    for(int i = 1; i < n; i++)
+    {
+        say(rv, buf);
+    }
+    free(buf);
+    return rv;
+}
