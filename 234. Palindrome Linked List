@@ -1,0 +1,38 @@
+//https://leetcode.com/problems/palindrome-linked-list/
+
+void front_add(struct ListNode** head, int n)
+{
+    struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+    node->val = n;
+    node->next = NULL;
+    
+    if( (*head) == NULL)
+        (*head) = node;
+    else
+    {
+        node->next = *head;
+        *head = node;
+    }    
+}
+
+bool isPalindrome(struct ListNode* head)
+{
+    struct ListNode* new_head = NULL;
+    struct ListNode* temp = head;
+    
+    while(temp)
+    {
+        front_add(&new_head, temp->val);
+        temp = temp->next;
+    }
+    
+    while(head)
+    {
+        if(head->val != new_head->val)
+            return false;
+        head = head->next;
+        new_head = new_head->next;
+    }
+    
+    return true;
+}
