@@ -1,0 +1,41 @@
+//https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n)
+{
+    int size = 0;
+    struct ListNode* temp = head;
+    struct ListNode* temp_del = NULL;
+    
+    while(temp)
+    {
+        size++;
+        temp = temp->next;
+    }
+    
+    if(size == n)
+    {
+        temp_del = head;
+        head = head->next;
+        free(temp_del);
+        return head;
+    }
+    
+    size = size-n;
+    temp = head;
+    while(1)
+    {
+        if(size == 1)
+        {
+            temp_del = temp->next;
+            temp->next = temp->next->next;
+            free(temp_del);
+            
+            break;   
+        }
+        temp = temp->next;
+        size--;        
+    }
+    
+    
+    return head;
+}
