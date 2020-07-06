@@ -1,61 +1,79 @@
 //https://leetcode.com/problems/merge-two-sorted-lists/
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     struct ListNode *next;
- * };
- */
-
-void add(struct ListNode** header, int val)
+struct ListNode* CreateNode(int val)
 {
     struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
     
     node->val = val;
     node->next = NULL;
     
-    if(*header == NULL)
-        *header = node;
-    else
-    {
-        struct ListNode* temp = *header;    
-        while(temp->next)
-        {
-            temp = temp->next;
-        }
-        temp->next = node;
-    }
-    return;
+    return node;
 }
 
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2)
 {
-    struct ListNode* rv = NULL;
+    struct ListNode* header = NULL;
+    struct ListNode* tail = NULL;
         
     while(l1 && l2)
     {
         if(l1->val > l2->val)
         {
-            add(&rv, l2->val);
+            if(tail == NULL)
+            {
+                header = CreateNode(l2->val);
+                tail = header;
+            }
+            else
+            {
+                tail->next = CreateNode(l2->val);
+                tail = tail->next;
+            }
             l2 = l2->next;
         }
         else
         {
-            add(&rv, l1->val);
+            if(tail == NULL)
+            {
+                header = CreateNode(l1->val);
+                tail = header;
+            }
+            else
+            {
+                tail->next = CreateNode(l1->val);
+                tail = tail->next;
+            }
             l1 = l1->next;
         }
     }
     while(l1)
     {
-        add(&rv, l1->val);
+        if(tail == NULL)
+        {
+            header = CreateNode(l1->val);
+            tail = header;
+        }
+        else
+        {
+            tail->next = CreateNode(l1->val);
+            tail = tail->next;
+        }
         l1 = l1->next;        
     }
     while(l2)
     {
-        add(&rv, l2->val);
+        if(tail == NULL)
+        {
+            header = CreateNode(l2->val);
+            tail = header;
+        }
+        else
+        {
+            tail->next = CreateNode(l2->val);
+            tail = tail->next;
+        }
         l2 = l2->next;        
     }
     
-    return rv;
+    return header;
 }
