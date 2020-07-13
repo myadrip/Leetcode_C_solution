@@ -1,0 +1,147 @@
+//https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+
+#define Q_SIZE 10000
+#define LINE_SIZE 1000
+
+struct Queue
+{
+    int capacity;
+    int size;
+    int front;
+    int rear;
+    struct TreeNode** arr;        
+};
+struct Queue* Createqueue()
+{
+    struct Queue* Q = (struct Queue*)malloc(sizeof(struct Queue));
+    Q->capacity = Q_SIZE;
+    Q->size = 0;
+    Q->front = Q->rear = -1;
+    Q->arr = (struct TreeNode**)malloc(sizeof(struct TreeNode*)*Q->capacity);
+    return Q;
+}
+
+int maxdepth(struct TreeNode* root, int level)
+{
+    if(root == NULL)
+        return level;
+    
+    int left = level;
+    int right = level;
+    
+    if(root->left)
+        left = maxdepth(root->left, level+1);
+    if(root->right)
+        right = maxdepth(root->right, level+1);
+    
+    if(left > right)
+        return left;
+    else
+        return right;
+}
+void EnQueue(struct Queue* Q, struct TreeNode* node)
+{
+    //printf("EnQueue:%d\n", node->val);
+    Q->arr[++(Q->front)] = node;
+    if(Q->rear == -1)
+        Q->rear = Q->front;
+    Q->size++;
+    return;
+}
+struct TreeNode* DeQueue(struct Queue* Q)
+{
+    //printf("DeQueue:%d\n", Q->arr[Q->rear]->val);
+    Q->size--;    
+    return Q->arr[Q->rear++];
+}
+
+bool IsEmptyQueue(struct Queue* Q)
+{
+    if(Q->size == 0)
+        return true;
+    else 
+        return false;
+}
+
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
+{
+    if(root == NULL)
+    {
+        *returnSize = 0;
+        *returnColumnSizes = NULL;
+        return "";
+    }
+        
+    struct Queue* Q = Createqueue();
+    struct TreeNode* temp = NULL;
+    
+    int depth = maxdepth(root, 1);
+    int** rv = (int**)malloc(sizeof(int*)*depth);
+    for(int i = 0; i < depth; i++)
+    {
+        rv[i] = (int*)malloc(sizeof(int)*LINE_SIZE);
+        memset(rv[i], 0x00, sizeof(int)*LINE_SIZE);
+    }    
+    
+    (*returnSize) = depth;
+    (*returnColumnSizes) = (int*)malloc(sizeof(int)*depth);
+    memset((*returnColumnSizes), 0x00, sizeof(int)*depth);    
+    
+    EnQueue(Q, root);
+        
+    int this_level = 1;
+    int next_level = 0;
+    int level = 0;
+    int arr_pos = 0;
+    
+    while(!IsEmptyQueue(Q))
+    {
+        temp = DeQueue(Q);
+        printf("value : %d \n", temp->val);
+        
+        rv[level][arr_pos++] = temp->val;
+        (*returnColumnSizes)[level]++;
+        this_level--;
+               
+        
+        if(temp->left)
+        {
+            EnQueue(Q, temp->left);
+            next_level++;
+        }
+            
+        if(temp->right)
+        {
+            EnQueue(Q, temp->right);
+            next_level++;
+        }
+        
+        if(this_level == 0 )
+        {
+            this_level = next_level;
+            next_level = 0;
+            arr_pos = 0;
+            level++;
+        }
+    }
+    
+    
+    
+    return rv;
+}
