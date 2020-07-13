@@ -1,0 +1,36 @@
+//https://leetcode.com/problems/validate-binary-search-tree/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/*
+INT_MAX is +2147483647. 
+INT_MIN is -2147483648.
+
+*/
+
+bool func(struct TreeNode* root, int min, int max, bool min_set, bool max_set)
+{
+    if(root == NULL)
+        return true;
+    
+    if(min_set && root->val<=min)
+        return false;
+    if(max_set && root->val>= max)
+        return false;
+    
+    
+    return func(root->left, min, root->val, min_set, true) && 
+            func(root->right, root->val, max, true, max_set);
+    
+}
+
+bool isValidBST(struct TreeNode* root)
+{
+    return func( root, INT_MIN, INT_MAX, false, false);
+}
