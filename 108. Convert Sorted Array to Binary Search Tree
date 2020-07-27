@@ -1,0 +1,64 @@
+//https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+struct TreeNode* CreateNode(int n)
+{
+    struct TreeNode* Node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    Node->val = n;
+    Node->left = NULL;
+    Node->right = NULL;
+    return Node;
+}
+
+void Insert(struct TreeNode* root, int n)
+{
+    if(root->val > n)
+    {
+        if(root->left)
+            Insert(root->left, n);
+        else
+            root->left = CreateNode(n);
+    }
+    else
+    {
+        if(root->right)
+            Insert(root->right, n);
+        else
+            root->right = CreateNode(n);
+    }
+    return;
+}
+
+void InOder(struct TreeNode* root, int low, int high, int* nums)
+{
+    int mid = (low+high)/2;
+    //printf("low:%d high:%d mid:%d\n", low, high, mid);
+    if(low <= high)
+    {
+        Insert(root, nums[mid]);
+        InOder(root, low, mid-1, nums);
+        InOder(root, mid+1, high, nums);        
+    }
+    return;
+}
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize)
+{
+    if(numsSize == 0)
+        return NULL;
+    
+    int mid = numsSize/2;
+    struct TreeNode* root = CreateNode(nums[mid]);
+    InOder(root, 0, mid-1, nums);
+    InOder(root, mid+1, numsSize-1, nums);
+    
+    return root;
+}
