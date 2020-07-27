@@ -1,0 +1,30 @@
+//https://leetcode.com/problems/first-bad-version/
+
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+
+int BST(double low, double high)
+{
+    int mid = (low+high)/2;
+
+    
+    if(isBadVersion(mid))   //bad version
+    {
+        if(mid == low)
+            return mid;
+        if(isBadVersion(mid-1) == false)
+            return mid;
+        return BST(low, mid-1);
+    }
+    else                    //good version
+    {
+
+        return BST(mid+1, high);
+    }
+}
+
+int firstBadVersion(int n) 
+{
+    return BST(1, n);
+}
