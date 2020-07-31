@@ -1,3 +1,47 @@
 //https://leetcode.com/problems/maximum-product-subarray/
 
+int func_min(int a, int b)
+{
+    if(a>b)
+        return b;
+    else
+        return a;    
+}
+int func_max(int a, int b)
+{
+    if(a>b)
+        return a;
+    else
+        return b;    
+}
 
+int maxProduct(int* nums, int numsSize)
+{
+    int max = INT_MIN;
+    int** buf = (int**)malloc(sizeof(int*)*2);
+    buf[0] = (int*)malloc(sizeof(int)*numsSize);    //min
+    buf[1] = (int*)malloc(sizeof(int)*numsSize);    //max
+    
+    buf[0][0] = nums[0];
+    buf[1][0] = nums[0];
+    for(int i = 1; i < numsSize; i++)
+    {
+        buf[0][i] = func_min(nums[i], nums[i]*buf[0][i-1]);
+        buf[0][i] = func_min(buf[0][i], nums[i]*buf[1][i-1]);
+        
+        buf[1][i] = func_max(nums[i], nums[i]*buf[0][i-1]);
+        buf[1][i] = func_max(buf[1][i], nums[i]*buf[1][i-1]);
+    }
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(buf[1][i] > max)
+            max = buf[1][i];
+    }
+    
+    free(buf[0]);
+    free(buf[1]);
+    free(buf);
+    
+    return max;
+}
