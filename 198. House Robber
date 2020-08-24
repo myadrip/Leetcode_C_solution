@@ -1,0 +1,36 @@
+//https://leetcode.com/problems/house-robber/
+
+
+int Bigger(int a, int b)
+{
+    if(a>b)
+        return a;
+    else 
+        return b;
+}
+
+int rob(int* nums, int numsSize)
+{
+    if(numsSize == 0)
+        return 0;
+    int* bufffer = (int*)malloc(sizeof(int)*numsSize);
+    memset(bufffer, 0x00, sizeof(int)*numsSize);
+    int max = nums[0];
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(i==0 || i==1)
+            bufffer[i] = nums[i];
+        else if(i==2)
+            bufffer[2] = nums[2] + nums[0];
+        else
+        {
+            bufffer[i] = nums[i] + Bigger(bufffer[i-2], bufffer[i-3]);
+        }
+        if(bufffer[i] > max)
+            max = bufffer[i];
+    }
+    
+    free(bufffer);
+    return max;
+}
