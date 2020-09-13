@@ -1,0 +1,69 @@
+//https://leetcode.com/problems/fizz-buzz/
+
+
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+
+int numlen(int i)
+{
+    int ret = 1;
+    while(i / 10 != 0)
+    {
+         i = i / 10;
+        ret++;
+    }
+    return ret;
+}
+
+void itoa(int i, char** str)
+{
+    int num_len = numlen(i);
+    (*str) = (char*)malloc(sizeof(char)*(num_len+1));
+    for(int pos = num_len-1; pos>=0; pos--)
+    {
+        (*str)[pos] = i % 10 +'0';
+        i = i/10;
+    }
+    
+    (*str)[num_len] = '\0';
+    return;
+}
+
+char** fizzBuzz(int n, int* returnSize)
+{    
+    char** ret = (char**)malloc(sizeof(char*)*n);
+    (*returnSize) = n;
+    
+    for(int i = 1; i < n+1; i++)
+    {
+        if(i%3 == 0 && i%5==0)
+        {
+            ret[i-1] = (char*)malloc(sizeof(char)*9);            
+            memcpy(ret[i-1], "FizzBuzz", sizeof(char)*8);
+            ret[i-1][8] = '\0';
+        }
+        else if(i%3 == 0)
+        {
+            ret[i-1] = (char*)malloc(sizeof(char)*5);
+            memcpy(ret[i-1], "Fizz", sizeof(char)*4);
+            ret[i-1][4] = '\0';
+            
+        }
+        else if(i%5 == 0)
+        {
+            ret[i-1] = (char*)malloc(sizeof(char)*5);
+            memcpy(ret[i-1], "Buzz", sizeof(char)*4);
+            ret[i-1][4] = '\0';
+        }
+        else
+        {
+            itoa(i, &ret[i-1]);
+        }
+    }
+    
+    return ret;
+}
