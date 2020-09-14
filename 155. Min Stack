@@ -1,0 +1,79 @@
+//https://leetcode.com/problems/min-stack/
+
+
+
+
+typedef struct 
+{
+    int capacity;
+    int count;
+    int* stack;
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() 
+{
+    MinStack* obj = (MinStack*)malloc(sizeof(MinStack));
+    obj->capacity = 1;
+    obj->count = 0;
+    obj->stack = (int*)malloc(sizeof(int)*(obj->capacity));
+
+    return obj;
+}
+
+void minStackPush(MinStack* obj, int x) 
+{
+    if(obj->capacity == obj->count)
+    {
+        obj->capacity = (obj->capacity)*2;
+        obj->stack = (int*)realloc(obj->stack, sizeof(int)*(obj->capacity));
+    }
+    obj->stack[obj->count] = x;
+    obj->count++;
+    return;
+}
+
+void minStackPop(MinStack* obj) 
+{
+    obj->count--;
+}
+
+int minStackTop(MinStack* obj) 
+{
+    int data = obj->stack[obj->count-1];
+    return data;
+}
+
+int minStackGetMin(MinStack* obj) 
+{
+    int min = INT_MAX;
+    for(int i = 0; i < obj->count; i++)
+    {
+        if(min > obj->stack[i])
+            min = obj->stack[i];
+    }
+    return min;
+}
+
+void minStackFree(MinStack* obj) 
+{
+    if(obj->stack)
+        free(obj->stack);
+    free(obj);
+    return;
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, x);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
