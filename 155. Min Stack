@@ -1,13 +1,16 @@
 //https://leetcode.com/problems/min-stack/
 
-
-
+typedef struct node
+{
+    int val;
+    int min;
+} NODE;
 
 typedef struct 
 {
     int capacity;
     int count;
-    int* stack;
+    NODE* stack;
 } MinStack;
 
 /** initialize your data structure here. */
@@ -17,7 +20,8 @@ MinStack* minStackCreate()
     MinStack* obj = (MinStack*)malloc(sizeof(MinStack));
     obj->capacity = 1;
     obj->count = 0;
-    obj->stack = (int*)malloc(sizeof(int)*(obj->capacity));
+    obj->stack = (NODE*)malloc(sizeof(NODE)*(obj->capacity));
+    
 
     return obj;
 }
@@ -27,9 +31,23 @@ void minStackPush(MinStack* obj, int x)
     if(obj->capacity == obj->count)
     {
         obj->capacity = (obj->capacity)*2;
-        obj->stack = (int*)realloc(obj->stack, sizeof(int)*(obj->capacity));
+        obj->stack = (NODE*)realloc(obj->stack, sizeof(NODE)*(obj->capacity));
     }
-    obj->stack[obj->count] = x;
+    obj->stack[obj->count].val = x;
+    
+    if(obj->count == 0)
+        obj->stack[obj->count].min = x;
+    else
+    {
+        if(obj->stack[obj->count-1].min > x)
+        {
+            obj->stack[obj->count].min = x;
+        }
+        else
+        {
+            obj->stack[obj->count].min = obj->stack[obj->count-1].min;
+        }
+    }
     obj->count++;
     return;
 }
@@ -41,19 +59,14 @@ void minStackPop(MinStack* obj)
 
 int minStackTop(MinStack* obj) 
 {
-    int data = obj->stack[obj->count-1];
+    int data = obj->stack[obj->count-1].val;
     return data;
 }
 
 int minStackGetMin(MinStack* obj) 
 {
-    int min = INT_MAX;
-    for(int i = 0; i < obj->count; i++)
-    {
-        if(min > obj->stack[i])
-            min = obj->stack[i];
-    }
-    return min;
+    int data = obj->stack[obj->count-1].min;
+    return data;
 }
 
 void minStackFree(MinStack* obj) 
