@@ -1,0 +1,51 @@
+//https://leetcode.com/problems/roman-to-integer/
+
+
+
+int romanToInt(char* s)
+{
+    int len = strlen(s);
+    int sum = 0;
+    char prev = -1;
+    
+    for(int i = len-1; i >=0; i--)
+    {
+        switch(s[i])
+        {
+            case 'I':
+                if(prev == 'V' || prev == 'X')
+                    sum = sum-1;
+                else
+                    sum = sum+1;                
+                break;
+            case 'V':
+                sum = sum+5;
+                break;
+            case 'X':
+                if(prev == 'L' || prev == 'C')
+                    sum = sum-10;
+                else
+                    sum = sum+10;
+                break;
+            case 'L':
+                sum = sum+50;
+                break;
+            case 'C':
+                if(prev == 'D' || prev == 'M')
+                    sum = sum-100;
+                else
+                    sum = sum+100;
+                break;
+            case 'D':
+                sum = sum+500;
+                break;
+            case 'M':
+                sum = sum+1000;
+                break;
+        }
+        prev = s[i];
+    }
+    
+    return sum;
+
+}
