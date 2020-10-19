@@ -1,0 +1,61 @@
+// https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/
+
+
+int minValue(int a, int b)
+{
+    if(a > b)
+        return b;
+    else
+        return a;
+}
+
+int minDominoRotations(int* A, int ASize, int* B, int BSize)
+{
+    int min = -1;
+    
+    int numA = 0;
+    int numB = 0;
+    
+    for(int i = 1; i <7; i++)
+    {
+        for(int index = 0; index < ASize; index++)
+        {
+            if(A[index] == i && B[index] == i)
+            {
+                
+            }
+            else if(A[index] == i)
+            {
+                numA++;                
+            }
+            else if(B[index] == i)
+            {
+                numB++;
+            }
+            else
+            {
+                numA = 0;
+                numB = 0;
+                break;
+            }
+            
+            if(index == ASize-1)
+            {
+                //found
+                if(min == -1)
+                    min = minValue(numA, numB);
+                else
+                {
+                    if(min > minValue(numA, numB))
+                        min = minValue(numA, numB);
+                }                
+                numA = 0;
+                numB = 0;
+            }
+        }        
+    }
+    
+    return min;
+    
+
+}
