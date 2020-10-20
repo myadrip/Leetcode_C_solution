@@ -1,0 +1,43 @@
+//https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/
+
+int min(int a, int b)
+{
+    if(a > b)
+        return b;
+    else
+        return a;
+}
+int max(int a, int b)
+{
+    if(a>b)
+        return a;
+    else 
+        return b;
+}
+
+int helper(int* a, int* b, int val, int Size)
+{
+    int cntA = 0;
+    int cntB = 0;
+    for(int i = 0; i < Size; i++)
+    {
+        if(a[i] != val && b[i] != val)
+            return -1;
+        if(a[i] != val)
+            cntA++;
+        if(b[i] != val)
+            cntB++;
+    }
+    return min(cntA, cntB);
+}
+
+int minDominoRotations(int* A, int ASize, int* B, int BSize)
+{
+    int numA = helper(A, B, A[0], ASize);
+    int numB = helper(A, B, B[0], ASize);
+    
+    if(numA == -1 || numB == -1)
+        return max(numA, numB);
+    else
+        return min(numA, numB); 
+}
