@@ -1,0 +1,62 @@
+// https://leetcode.com/problems/clone-graph/
+
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     int numNeighbors;
+ *     struct Node** neighbors;
+ * };
+ */
+
+#define BUFSIZE 100
+struct Node** Visited;
+int cnt_node;
+
+struct Node* createNode(struct Node* node)
+{
+    //printf("new node:%d\n", node->val);
+    struct Node* new = (struct Node*)malloc(sizeof(struct Node));
+    new->val = node->val;
+    new->numNeighbors = node->numNeighbors;
+    new->neighbors = (struct Node**)malloc(sizeof(struct Node*)*node->numNeighbors);
+    return new;
+}
+
+struct Node* DFS(struct Node* node, struct Node* caller)
+{
+    for(int idx = 0; idx < cnt_node; idx++)
+    {
+        if(Visited[idx]->val == node->val)
+        {
+            return Visited[idx];
+        }
+    }
+    
+    //printf("DFS:%d\n", node->val);
+    
+    struct Node* rv = createNode(node);
+    Visited[cnt_node] = rv;
+    cnt_node++;
+    
+    for(int i = 0; i < node->numNeighbors; i++)
+    {
+        if(caller && node->neighbors[i]->val == caller->val)
+            rv->neighbors[i] = caller;
+        else
+            rv->neighbors[i] = DFS(node->neighbors[i], rv);
+    }
+    
+    return rv;
+}
+struct Node* cloneGraph(struct Node* s) 
+{
+    if(s == NULL)
+        return NULL;
+    
+    Visited = (struct Node**)malloc(sizeof(struct Node*)*BUFSIZE);
+    memset(Visited, 0x00, sizeof(struct Node*)*BUFSIZE);
+    cnt_node = 0;
+    return DFS(s, NULL);
+    
+}
