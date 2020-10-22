@@ -1,0 +1,77 @@
+//https://leetcode.com/problems/asteroid-collision/
+
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+#define SIZE 10000
+
+int* stack;
+int pos;
+
+void push(int* s, int num)
+{
+    s[++pos] = num;
+}
+int pop(int* s)
+{
+    if(pos == -1)
+        return INT_MIN;
+    return s[pos--];    
+}
+int peek(int* s)
+{
+    return s[pos];
+}
+
+int* asteroidCollision(int* asteroids, int asteroidsSize, int* returnSize)
+{
+    stack = (int*)malloc(sizeof(int)*SIZE);
+    pos = -1;
+    int temp = 0;
+    
+    for(int i = 0; i < asteroidsSize; i++)
+    {
+        while(1)
+        {
+            if(pos == -1)
+            {
+                push(stack, asteroids[i]);
+                break;
+            }
+            temp = peek(stack);
+            if(temp > 0)
+            {
+                if(asteroids[i] > 0)
+                {
+                    push(stack, asteroids[i]);
+                    break;
+                }
+                else
+                {
+                    if(temp > asteroids[i]*(-1))
+                        break;
+                    else if(temp == asteroids[i]*(-1))
+                    {
+                        pop(stack);
+                        break;
+                    }
+                    else
+                    {
+                        pop(stack);
+                    }
+                }
+            }
+            else
+            {
+                push(stack, asteroids[i]);
+                break;
+            }
+        }
+    }
+    
+    *returnSize = pos+1;
+    return stack;
+}
