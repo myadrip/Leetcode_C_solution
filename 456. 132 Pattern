@@ -29,3 +29,60 @@ bool find132pattern(int* nums, int numsSize)
 }
 
 ================================================================================================================
+
+
+bool find132pattern(int* nums, int numsSize)
+{
+    int* stack = (int*)malloc(sizeof(int)* numsSize);
+    int* min = (int*)malloc(sizeof(int)* numsSize);
+    int pos = -1;
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(i == 0)
+            min[i] = nums[i];
+        else
+        {
+            if(nums[i] > min[i-1])
+                min[i] = min[i-1];
+            else
+                min[i] = nums[i];
+        }
+    }
+    
+    for(int i = numsSize-1; i >=0; i-- )
+    {
+        if(min[i] < nums[i])
+        {
+            while(pos > -1)
+            {
+                if(stack[pos] <= min[i])
+                    pos--;
+                else 
+                    break;
+            }
+                
+            while(1)
+            {
+                if(pos == -1)
+                {
+                    stack[++pos] = nums[i];
+                    break;
+                }
+                if(stack[pos] < nums[i])
+                {
+                    return true;
+                }
+                
+                if(stack[pos] >= nums[i])
+                {
+                    stack[++pos] = nums[i];
+                    break;
+                }
+                
+            }
+        }
+    }
+    
+    return false;
+}
