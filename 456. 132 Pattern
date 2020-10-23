@@ -1,0 +1,31 @@
+//https://leetcode.com/problems/132-pattern/
+
+
+int min(int a, int b)
+{
+    if(a>b)
+        return b;
+    else
+        return a;    
+}
+
+bool find132pattern(int* nums, int numsSize)
+{
+    int val_i = INT_MAX;
+    
+    for(int j = 0; j < numsSize; j++)
+    {
+        val_i = min(val_i, nums[j]);
+        for(int k = j+1; k < numsSize; k++)
+        {
+            if(nums[j] > nums[k] && nums[k] > val_i)
+            {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+================================================================================================================
