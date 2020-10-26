@@ -18,9 +18,6 @@ void rotate(int* nums, int numsSize, int k)
 
 
 =============================================================================================================================
-
-
-
 void rotate(int* nums, int numsSize, int k)
 {
     k = k % numsSize;
@@ -52,4 +49,28 @@ void rotate(int* nums, int numsSize, int k)
     }
     
     return;
+}
+=============================================================================================================================
+
+
+
+void rotate(int* nums, int numsSize, int k)
+{
+    k = k%numsSize;
+    
+    for(int i = 0; i < k; i++)
+    {
+        int cur_val = nums[0];
+        int next_val;
+        
+        for(int j = 0; j < numsSize; j++)
+        {
+            int next = (j+1)%numsSize;
+            next_val = nums[next];
+            nums[next] = cur_val;
+            cur_val = next_val;
+        }
+    }
+    return;
+
 }
