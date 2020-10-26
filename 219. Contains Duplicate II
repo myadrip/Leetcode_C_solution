@@ -1,0 +1,49 @@
+https://leetcode.com/problems/contains-duplicate-ii/
+
+
+Time Limit Exceeded
+
+int comp(void* a, void* b)
+{
+    if(*(int*)a > *(int*)b)
+        return 1;
+    else 
+        return 0;
+}
+
+bool duplicate(int* arr, int size)
+{
+    qsort(arr, size, sizeof(int), comp);
+    for(int i = 0; i < size-1; i++)
+    {
+        if(arr[i] == arr[i+1])
+        {
+            return true;
+        }
+            
+    }
+    return false;
+}
+
+bool containsNearbyDuplicate(int* nums, int numsSize, int k)
+{
+    if(k >= numsSize)
+        k = numsSize-1;
+    int* buf = (int*)malloc(sizeof(int)*(k+1));
+    
+    for(int i = 0; i < numsSize-k; i++)
+    {
+        memcpy(buf, &nums[i], sizeof(int)*(k+1));
+        if (duplicate(buf, k+1))
+        {
+            free(buf);
+            return true;
+        }
+            
+    }
+    free(buf);
+    return false;
+}
+
+===============================================================================================================================================
+
