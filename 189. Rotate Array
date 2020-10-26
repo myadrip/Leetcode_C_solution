@@ -15,3 +15,41 @@ void rotate(int* nums, int numsSize, int k)
     return;
 
 }
+
+
+=============================================================================================================================
+
+
+
+void rotate(int* nums, int numsSize, int k)
+{
+    k = k % numsSize;
+    int count = 0;
+    
+    for(int start = 0; count < numsSize; start++)
+    {
+        int current = start;
+        int cur_val = nums[start];
+        int next_val = 0;
+        
+        while(1)
+        {
+            int next = (current+k)%numsSize;
+            
+            next_val = nums[next];
+            nums[next] = cur_val;
+            
+            cur_val = next_val;
+            current = next;
+            count++;
+            
+            if(next == start)
+                break;
+            if(count == numsSize)
+                return;
+            
+        }
+    }
+    
+    return;
+}
