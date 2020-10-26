@@ -1,0 +1,17 @@
+//https://leetcode.com/problems/rotate-array/
+
+
+
+void rotate(int* nums, int numsSize, int k)
+{
+    int* buf = (int*)malloc(sizeof(int)*numsSize);
+    for(int i = 0; i < numsSize; i++)
+    {
+        buf[i] = nums[(i-k%numsSize+numsSize)%numsSize];
+    }
+    
+    memcpy(nums, buf, sizeof(int)*numsSize);
+    free(buf);
+    return;
+
+}
