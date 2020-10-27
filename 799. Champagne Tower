@@ -1,0 +1,43 @@
+//https://leetcode.com/problems/champagne-tower/
+
+
+
+#define SIZE 100
+
+double min(double a, double b)
+{
+    if(a > b)
+        return b;
+    else 
+        return a;
+}
+double champagneTower(int poured, int query_row, int query_glass)
+{
+    double** buf = (double**)malloc(sizeof(double*)*SIZE);
+    for(int i = 0; i < SIZE ; i++)
+    {
+        buf[i] = (double*)malloc(sizeof(double)*SIZE);
+        memset(buf[i], 0x00, sizeof(double)*SIZE);
+    }
+    
+    buf[0][0] = poured;
+    for(int row = 0; row < query_row; row++)
+    {
+        for(int col = 0; col < row+1; col++)
+        {
+            if(buf[row][col] > 1)
+            {
+                buf[row+1][col] = buf[row+1][col] + (buf[row][col]-1)/2;
+                buf[row+1][col+1] = buf[row+1][col+1]+(buf[row][col]-1)/2;                
+            }            
+        }
+    }
+    
+    double ret = buf[query_row][query_glass];
+    for(int i = 0; i < SIZE ; i++)
+        free(buf[i]);
+    free(buf);
+    
+    return min(ret, 1);
+
+}
