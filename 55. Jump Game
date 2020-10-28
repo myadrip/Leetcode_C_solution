@@ -1,0 +1,23 @@
+//https://leetcode.com/problems/jump-game/
+
+
+
+bool canJump(int* nums, int numsSize)
+{
+    if( numsSize < 2)
+        return true;
+    
+    int range = nums[0];
+    int pos = 1;
+    
+    for(; pos <= range; pos++)
+    {
+        if(range >= numsSize-1)
+            return true;
+        if(pos + nums[pos] > range)
+            range = pos + nums[pos];
+    }
+    
+    return false;    
+}
+
