@@ -118,6 +118,7 @@ int* rightSideView(struct TreeNode* root, int* returnSize)
             next = 0;
         }
     }
-    
+        free(q->arr);
+    free(q);
     return rv;
 }
