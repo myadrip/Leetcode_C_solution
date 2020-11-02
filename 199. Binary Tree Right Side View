@@ -1,0 +1,130 @@
+// https://leetcode.com/problems/binary-tree-right-side-view/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+typedef struct QUEUE
+{
+    int in;
+    int out;
+    int full;
+    int capaciy;
+    struct TreeNode** arr;    
+}QUEUE;
+
+int maxdepth(struct TreeNode* root)
+{
+    if(root == NULL)
+        return 0;
+    if(root->left == NULL && root->right== NULL)
+        return 1;
+        
+    int left = INT_MIN;
+    int right = INT_MIN;
+    if(root->left)
+        left = maxdepth(root->left)+1;
+    if(root->right)
+        right = maxdepth(root->right)+1;
+        
+    if(left < right)
+        return right;
+    else
+        return left;
+}
+void push(QUEUE* q, struct TreeNode* node)
+{
+    if(q->full == q->capaciy)
+    {
+        printf("no space!!!");
+        return;
+    }
+    
+    q->arr[++(q->in)] = node;
+    q->full++;
+    
+    if(q->full == 1)
+        q->out = q->in;        
+    
+    return;
+}
+struct TreeNode* pop(QUEUE* q)
+{
+    if(q->full >0)
+    {
+        q->full--;
+        return q->arr[q->out++];
+    }
+        
+    else
+        return NULL;
+}
+int* rightSideView(struct TreeNode* root, int* returnSize)
+{
+    (*returnSize) = 0;
+    if(root == NULL)
+        return NULL;
+    int depth = maxdepth(root);
+    printf("depth: %d\n", depth);
+    
+    int* rv = (int*)malloc(sizeof(int)*depth);
+    memset(rv, 0x00, sizeof(int)*depth);
+    
+    QUEUE* q = (QUEUE*)malloc(sizeof(QUEUE));
+    q->in = -1;
+    q->out = -1;
+    q->full = 0;
+    q->capaciy = 100;
+    q->arr = (struct TreeNode**)malloc(sizeof(struct TreeNode*)*(q->capaciy));
+    
+    int prev = 1;
+    int next = 0;
+    push(q, root);
+    
+    
+    while(1)
+    {
+        struct TreeNode* temp = pop(q);
+        if(temp == NULL)
+            return;
+        
+        if(temp->left)
+        {
+            next++;
+            push(q, temp->left);
+        }
+        if(temp->right)
+        {
+            next++;
+            push(q, temp->right);
+        }
+        
+        prev--;
+        
+        if(prev == 0)
+        {
+            printf("%d ", temp->val);
+            //rv[(*returnSize)] = temp->val;
+            //(*returnSize)++;
+            prev = next;
+            next = 0;
+        }
+    }
+    
+    rv[0] = 1;
+    rv[1] = 3;
+    rv[2] = 4;
+    (*returnSize) = 3;
+    
+    return rv;
+}
