@@ -1,0 +1,32 @@
+//https://leetcode.com/problems/min-cost-climbing-stairs/
+
+
+
+int less(int a, int b)
+{
+    if(a>b)
+        return b;
+    else
+        return a;
+}
+
+int minCostClimbingStairs(int* cost, int costSize)
+{
+    int* min = (int*)malloc(sizeof(int)* costSize);
+    
+    for(int i = 0; i < costSize; i++)
+    {
+        if(i < 2)
+        {
+            min[i] = 0;
+        }
+        else
+        {
+            min[i] = less(cost[i-1]+min[i-1], cost[i-2]+min[i-2]);
+        }
+            
+    }
+    int rv = less(cost[costSize-1]+min[costSize-1], cost[costSize-2]+min[costSize-2]);
+    free(min);
+    return rv;
+}
