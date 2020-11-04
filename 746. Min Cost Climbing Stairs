@@ -30,3 +30,32 @@ int minCostClimbingStairs(int* cost, int costSize)
     free(min);
     return rv;
 }
+
+
+================================================================================================================
+
+int less(int a, int b)
+{
+    if(a > b)
+        return b;
+    else
+        return a;
+}
+
+int minCostClimbingStairs(int* cost, int costSize)
+{
+    int f0 = 0;
+    int f1 = 0;
+    int f2 = 0;
+    
+    for(int i = costSize-1; i >= 0; i--)
+    {
+        f0 = cost[i] + less(f1, f2);
+        f2 = f1;
+        f1 = f0;
+    }
+    
+    return less(f1, f2);
+
+}
+
