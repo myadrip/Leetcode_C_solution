@@ -108,3 +108,41 @@ int rob(int* nums, int numsSize)
     free(buf);
     return ret;
 }
+==============================================================================================================================
+
+int f_max(int a, int b)
+{
+    if(a>b)
+        return a;
+    else
+        return b;
+}
+
+int rob(int* nums, int numsSize)
+{
+    int max = 0;
+    int val1 = 0;
+    int val2 = 0;
+    
+    for(int i = 0; i < numsSize; i++)
+    {
+        if( i == 0)
+        {
+            max = nums[0];
+            val2 = max;
+        }
+        else if(i == 1)
+        {
+            max = f_max(nums[0], nums[1]);
+            val1 = max;
+        }
+        else
+        {
+            max = f_max(nums[i]+val2, val1);
+            val2 = val1;
+            val1 = max;
+        }
+    }
+    
+    return max;
+}
