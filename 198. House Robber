@@ -72,6 +72,39 @@ int rob(int* nums, int numsSize)
     }
     else
         return buf[numsSize-1];
+}
+==============================================================================================================================
+
+
+int f_max(int a, int b)
+{
+    if(a > b)
+        return a;
+    else
+        return b;
+}
+
+int rob(int* nums, int numsSize)
+{
+    if(numsSize == 0)
+        return 0;
     
+    int* buf = (int*)malloc(sizeof(int)*numsSize);
+    memset(buf, 0x00, sizeof(int)*numsSize);
     
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(i == 0)
+            buf[i] = nums[i];
+        else if(i == 1)
+            buf[i] = f_max(nums[0], nums[1]);
+        else
+        {
+            buf[i] = f_max(nums[i]+buf[i-2], buf[i-1]);
+        }
+    }
+    
+    int ret = buf[numsSize-1];
+    free(buf);
+    return ret;
 }
