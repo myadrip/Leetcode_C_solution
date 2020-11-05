@@ -27,3 +27,26 @@ bool isSubsequence(char* s, char* t)
     else
         return false;
 }
+
+=======================================================================================================================
+bool isSubsequence(char * s, char * t)
+{
+    
+    int str1 = strlen(s);
+    int str2 = strlen(t);
+    int pos = 0;
+    if(str1 == 0)
+        return true;
+    
+    for(int i = 0; i < str2; i++)
+    {
+        if(s[pos] == t[i])
+        {
+            pos++;
+            if(pos == str1)
+                return true;
+        }        
+    }
+    
+    return false;
+}
