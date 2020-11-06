@@ -26,3 +26,40 @@ int maxSubArray(int* nums, int numsSize)
     return max;
 
 }
+================================================================================================================
+
+
+
+int f_max(int a, int b)
+{
+    if(a > b)
+        return a;
+    else
+        return b;    
+}
+
+int maxSubArray(int* nums, int numsSize)
+{
+    int* buf = (int*)malloc(sizeof(int)*numsSize);
+    memset(buf, 0x00, sizeof(int)*numsSize);
+    
+    int max = INT_MIN;
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(i == 0)
+        {
+            max = nums[0];
+            buf[0] = nums[0];
+        }
+        else
+        {
+            buf[i] = f_max(nums[i], nums[i]+buf[i-1]);
+            if(buf[i] > max)
+                max = buf[i]; 
+        }
+    }
+    
+    free(buf);
+        
+    return max;
+}
