@@ -1,0 +1,27 @@
+//https://leetcode.com/problems/count-sorted-vowel-strings/
+
+
+
+void func(int level, int range, int* ret)
+{
+    if(level == 0)
+    {
+        (*ret)++;
+        return;
+    }
+        
+    
+    for(int i = 0; i < range; i++)
+    {
+        func(level-1, range-i, ret);
+    }
+}
+int countVowelStrings(int n)
+{
+    int ret = 0;
+    
+    func(n, 5, &ret);
+    
+    return ret;
+}
+========================================================================================================================
