@@ -1,0 +1,62 @@
+//https://leetcode.com/problems/count-square-submatrices-with-all-ones/
+
+
+int min(int a, int b, int c)
+{
+    if(a < b && a < c)
+    {
+        return a;
+    }
+    else if(b < a && b < c)
+    {
+        return b;
+    }
+    else
+        return c;
+    
+}
+
+int countSquares(int** matrix, int matrixSize, int* matrixColSize)
+{
+    if(matrix == NULL)
+        return 0;
+    
+    int** dp = (int**)malloc(sizeof(int*)*matrixSize);
+    int ret = 0;
+    
+    for(int i = 0;i < matrixSize; i++)
+    {
+        dp[i] = (int*)malloc(sizeof(int)*matrixColSize[0]);
+    }
+    
+    for(int row = 0; row < matrixSize; row++)
+    {
+        for(int col = 0; col < matrixColSize[0]; col++)
+        {
+            if(row == 0 || col == 0)
+            {
+                dp[row][col] = matrix[row][col];
+            }
+            else if(matrix[row][col] == 1)
+            {
+                dp[row][col] = min(dp[row-1][col], dp[row][col-1], dp[row-1][col-1]) + 1;
+            }
+            else if(matrix[row][col] == 0)
+            {
+                dp[row][col] = 0;
+            }
+            ret += dp[row][col];
+        }
+    }
+    
+    for(int i = 0;i < matrixSize; i++)
+    {
+        free(dp[i]);
+    }
+    free(dp);
+    
+    
+    return ret;
+    
+}
+==================================================================================================
