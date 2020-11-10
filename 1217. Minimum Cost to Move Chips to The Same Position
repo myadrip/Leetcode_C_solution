@@ -1,0 +1,26 @@
+// https://leetcode.com/problems/minimum-cost-to-move-chips-to-the-same-position/
+
+
+
+int minCostToMoveChips(int* position, int positionSize)
+{
+    int pay_odd = 0;
+    int pay_even = 0;
+    
+    for(int i = 0; i < positionSize; i++)
+    {
+        if(position[i] % 2 == 0)
+        {
+            pay_even++;
+        }
+        else
+            pay_odd++;
+    }
+    
+    
+    if(pay_odd > pay_even)
+        return pay_even;
+    else
+        return pay_odd;
+
+}
