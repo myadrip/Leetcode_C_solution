@@ -1,0 +1,29 @@
+//https://leetcode.com/problems/split-a-string-in-balanced-strings/
+
+
+
+int balancedStringSplit(char * s)
+{
+    int len = strlen(s);
+    
+    int nL = -1;
+    int nR = -1;
+    int ret = 0;
+    
+    for(int i = 0; i < len; i++)
+    {
+        
+        if(s[i] == 'L')
+            nL++;
+        else
+            nR++;
+        
+        if(nL == nR)
+            ret++;
+        
+    }
+    
+    return ret;
+    
+
+}
