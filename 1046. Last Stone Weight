@@ -1,0 +1,25 @@
+// https://leetcode.com/problems/last-stone-weight/
+
+
+int comp(const void* a, const void* b)
+{
+    return *(int*)a - *(int*)b;
+}
+
+int lastStoneWeight(int* stones, int stonesSize)
+{
+    qsort(stones, stonesSize, sizeof(int), comp);
+    if(stonesSize == 1)
+        return stones[0];
+    
+    
+    while(stones[stonesSize-2])
+    {
+        stones[stonesSize-1] = stones[stonesSize-1] - stones[stonesSize-2];
+        stones[stonesSize-2] = 0;
+        qsort(stones, stonesSize, sizeof(int), comp);
+    }
+    
+    return stones[stonesSize-1];
+
+}
