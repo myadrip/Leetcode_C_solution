@@ -1,0 +1,23 @@
+// https://leetcode.com/problems/water-bottles/
+
+
+
+int numWaterBottles(int numBottles, int numExchange)
+{
+    int ret = 0;
+    int full_drink = numBottles;
+    int empty_drink = 0;
+    
+    while(full_drink)
+    {
+        ret += full_drink;
+        empty_drink += full_drink;
+        full_drink = empty_drink/numExchange;
+        empty_drink = empty_drink%numExchange;
+        
+        
+    }
+    
+    return ret;
+
+}
