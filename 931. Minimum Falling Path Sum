@@ -1,0 +1,62 @@
+//https://leetcode.com/problems/minimum-falling-path-sum/
+
+
+
+int f_min(int a, int b)
+{
+    if(a > b)
+        return b;
+    else
+        return a;
+}
+
+int minFallingPathSum(int** A, int ASize, int* AColSize)
+{
+    int** dp = (int**)malloc(sizeof(int*) * ASize);
+    for(int i = 0; i < ASize; i++)
+    {
+        dp[i] = (int*)malloc(sizeof(int) * AColSize[0]);
+        memset(dp[i], 0x00, sizeof(int) * AColSize[0]);
+    }
+    
+    int ret = INT_MAX;
+    for(int r = 0; r < ASize; r++)
+    {
+        for(int c = 0; c < AColSize[0]; c++)
+        {
+            if(r == 0)
+            {
+                dp[r][c] = A[r][c];
+            }
+            else if(c == 0)
+            {
+                dp[r][c] = f_min(dp[r-1][c],dp[r-1][c+1]) + A[r][c];
+            }
+            else if(c == AColSize[0]-1)
+            {
+                
+                dp[r][c] = f_min(dp[r-1][c],dp[r-1][c-1]) + A[r][c];
+                
+            }
+            else
+            {
+                dp[r][c] = f_min(dp[r-1][c],dp[r-1][c+1]);
+                dp[r][c] = f_min(dp[r][c], dp[r-1][c-1]) + A[r][c];
+            }
+            if(r == ASize-1)
+            {
+                if(dp[r][c] < ret)
+                {
+                    ret = dp[r][c];
+                }
+            }
+        }
+    }
+    
+    
+    for(int i = 0; i < ASize; i++)
+        free(dp[i]);
+    free(dp);
+    
+    return ret;
+}
