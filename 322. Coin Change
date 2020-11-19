@@ -1,0 +1,43 @@
+//https://leetcode.com/problems/coin-change/
+
+
+
+int f_min(int a, int b)
+{
+    if(a > b)
+        return b;
+    else
+        return a;
+}
+int coinChange(int* coins, int coinsSize, int amount)
+{
+    if(amount == 0)
+        return 0;
+    
+    int* dp = (int*)malloc(sizeof(int)*(amount+1));
+    
+    dp[0] = 0;
+    
+    for(int idp = 1; idp < (amount+1); idp++)
+    {
+        dp[idp] = INT_MAX;
+        for(int iarr = 0; iarr < coinsSize; iarr++)
+        {
+            if(idp >= coins[iarr])
+            {
+                //printf("%d ", idp);
+                if(dp[idp - coins[iarr]] == INT_MAX)
+                {
+                    
+                }
+                else
+                    dp[idp] = f_min(dp[idp], 1+ dp[idp - coins[iarr]]);
+            }
+        }
+    }
+
+    if(dp[amount] == INT_MAX)
+        return -1;
+    else
+        return dp[amount];
+}
