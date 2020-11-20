@@ -1,7 +1,5 @@
 //https://leetcode.com/problems/2-keys-keyboard/
 
-
-
 int minSteps(int n)
 {
     int* dp = (int*)malloc(sizeof(int)*(n+1));
@@ -21,7 +19,7 @@ int minSteps(int n)
         else
         {
             bFound = false;
-            for(int k = i-1; k>=2; k--)
+            for(int k = i/2-1; k>=2; k--)
             {
                 if(i %k == 0)
                 {
