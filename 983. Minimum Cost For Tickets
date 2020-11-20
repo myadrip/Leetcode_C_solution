@@ -1,0 +1,45 @@
+//https://leetcode.com/problems/minimum-cost-for-tickets/
+
+
+int f_min(int a, int b)
+{
+    if( a > b)
+        return b;
+    else
+        return a;
+}
+
+int helper(int* min_cost, int index)
+{
+    if(index < 0)
+        return 0;
+    else
+        return min_cost[index];
+}
+
+int mincostTickets(int* days, int daysSize, int* costs, int costsSize)
+{
+    int dp_lenth = days[daysSize-1]+1;
+    int* dp = (int*)malloc(sizeof(int) * dp_lenth);
+    
+    int current = 0;
+    
+    dp[0] = 0;
+    for(int i = 1; i < dp_lenth; i++)
+    {
+        if(i == days[current])
+        {
+            dp[i] = f_min(helper(dp, i-1) + costs[0], helper(dp, i-7) + costs[1]);
+            dp[i] = f_min(dp[i], helper(dp, i-30)+costs[2]);
+            current++;
+        }
+        else
+        {
+            dp[i] = helper(dp, i-1);
+        }
+    }
+    
+    int ret = dp[dp_lenth-1];
+    free(dp);
+    return ret;
+}
