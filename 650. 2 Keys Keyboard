@@ -1,0 +1,42 @@
+//https://leetcode.com/problems/2-keys-keyboard/
+
+
+
+int minSteps(int n)
+{
+    int* dp = (int*)malloc(sizeof(int)*(n+1));
+    
+    bool bFound = false;
+    dp[0] = 0;
+    for(int i = 1; i < n+1; i++)
+    {
+        if(i == 1)
+        {
+            dp[i] = 0;
+        }
+        else if(i %2 == 0)
+        {
+            dp[i] = dp[i/2] + 2;
+        }
+        else
+        {
+            bFound = false;
+            for(int k = i-1; k>=2; k--)
+            {
+                if(i %k == 0)
+                {
+                    bFound = true;
+                    dp[i] = dp[k]+1+(i-k)/k;
+                    break;
+                }
+            }
+            if(!bFound)
+                dp[i] = i;
+        }
+    }
+    
+    int ret = dp[n];
+    
+    free(dp);
+    return ret;
+}
