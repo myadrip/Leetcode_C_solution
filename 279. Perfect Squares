@@ -1,17 +1,20 @@
 //https://leetcode.com/problems/perfect-squares/
 
-/* Time Limit Exceeded */
 bool isSquare(int n)
 {
     if(n == 1)
         return true;
+    
     for(int i = 2; i <= n/2; i++)
     {
         if(i*i == n)
             return true;
+        else if(i*i > n)
+            return false;
     }
     return false;
 }
+
 int f_min(int a, int b)
 {
     if(a > b)
