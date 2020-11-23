@@ -2,31 +2,26 @@
 
 
 
-int Fib(int n, int* buf)
-{
-    if(buf[n] != -1)
-        return buf[n];
-    else
-    {
-        buf[n] = Fib(n-1, buf)+Fib(n-2, buf);
-        return buf[n];
-    }
-}
-
 int climbStairs(int n)
 {
-    int* buf = (int*)malloc(sizeof(int)*(n+1));
-    for(int i = 0; i < (n+1); i++)
+    int* dp = (int*)malloc(sizeof(int)*(n+1));
+    
+    for(int i = 0; i < n+1; i++)
     {
-        if(i == 0 || i == 1)
-            buf[i] = 1;
+        if(i<2)
+            dp[i] = 1;
         else
-            buf[i] = -1;
-    }
+        {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
         
+    }
     
-    int rv = Fib(n, buf);    
+    int ret = dp[n];
+    free(dp);
     
-    free(buf);    
-    return rv;
+    return ret;
+
 }
+
+
