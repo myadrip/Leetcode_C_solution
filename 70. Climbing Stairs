@@ -24,4 +24,98 @@ int climbStairs(int n)
 
 }
 
+====================================================================================
+
+
+int climbStairs(int n)
+{
+    int f0 = 0;
+    int f1 = 0;
+    int f2 = 0;
+    
+    for(int i = 0 ; i <= n ; i++)
+    {
+        if(i == 0 )
+        {
+            f0 = 1;
+            f1 = f0;
+        }
+        else if(i == 1)
+        {
+            f0 = 1;
+            f1 = 1;
+            f2 = 1;
+            
+        }
+        else
+        {
+            f0 = f1+f2;
+            f2 = f1;
+            f1 = f0;
+        }
+        
+    }
+    
+    
+    return f0;
+}
+
+====================================================================================
+
+
+int func(int n, int* dp)
+{
+    if(dp[n] != -1)
+        return dp[n];
+    else
+    {
+        if(n == 0)
+        {
+            dp[n] = 1;
+            return 1;
+        }
+        else if(n == 1)
+        {
+            dp[n] = 1;
+            return 1;
+        }
+        else
+        {
+            dp[n] = func(n-1, dp) + func(n-2, dp);
+            return dp[n];
+        }
+    }
+}
+
+int climbStairs(int n)
+{
+    int* dp = (int*)malloc(sizeof(int) * (n+1));
+    memset(dp, -1, sizeof(int) * (n+1));
+    func(n, dp);
+    
+    int ret = dp[n];
+    free(dp);
+    
+    return ret;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
