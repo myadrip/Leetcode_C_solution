@@ -33,3 +33,39 @@ int numRollsToTarget(int d, int f, int target)
 
 ================================================================================================
 
+
+int numRollsToTarget(int d, int f, int target)
+{
+    int** dp = (int**)malloc(sizeof(int*)*(d+1));
+    for(int i = 0; i < d+1; i++)
+    {
+        dp[i] = (int*)malloc(sizeof(int)*(target+1) );
+        memset(dp[i], 0x00, sizeof(int)*(target+1) );
+    }
+    
+    dp[0][0] = 1;
+    
+    for(int dice = 1; dice <=d; dice++)
+    {
+        for(int sum = 0; sum <= target; sum++ )
+        {
+            dp[dice][sum] = 0;
+            
+            for(int face = 1; face <= f; face++)
+            {
+                if(sum-face < 0)
+                    break;
+                dp[dice][sum] += dp[dice-1][sum-face];
+                dp[dice][sum] %= 1000000007;
+            }
+        }
+        
+    }
+    
+    int* ret = dp[d][target];
+    for(int i = 0; i < d+1; i++)
+        free(dp[i]);
+    free(dp);
+    
+    return ret;
+}
