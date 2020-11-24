@@ -39,6 +39,48 @@ int uniquePaths(int m, int n)
     free(buf);
     
     return rv;
+}
+
+============================================================================================================
+
+int func(int r, int c, int** dp)
+{
+    if(dp[r][c] != -1)
+    {
+        return dp[r][c];
+    }
+    else
+    {
+        if(r == 0 || c == 0)
+        {
+            dp[r][c] = 1;
+            return dp[r][c];
+        }
+        else
+        {
+            dp[r][c] = func(r, c-1, dp) + func(r-1, c, dp);
+            return dp[r][c];
+        }
+    }
     
+}
+
+int uniquePaths(int m, int n)
+{
+    int** dp = (int**)malloc(sizeof(int*)*m);
+    for(int i = 0; i < m; i++)
+    {
+        dp[i] = (int*)malloc(sizeof(int)*n);
+        memset(dp[i], -1, sizeof(int)*n);
+    }
+    
+    int ret = func(m-1, n-1, dp);
+    
+    for(int i = 0; i < m; i++)
+        free(dp[i]);
+    free(dp);
+    
+    return ret;
 
 }
+
