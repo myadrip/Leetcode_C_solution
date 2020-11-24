@@ -1,0 +1,35 @@
+// https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/
+
+<Time Limit Exceeded>
+void func(int d, int f, int target, int* cnt, int level, int temp_sum, int val)
+{
+
+    temp_sum += val;
+    if(temp_sum > target)
+        return;
+    if(level == d-1)
+    {
+        if(temp_sum == target)
+        {
+            (*cnt)++;
+            return;
+        }
+        return;
+    }
+    
+    for(int i = 1; i <=f; i++)
+        func( d, f, target, cnt, level+1, temp_sum, i);
+    return;
+}
+
+int numRollsToTarget(int d, int f, int target)
+{
+    int cnt = 0;
+    for(int i = 1; i <= f; i++)
+        func( d, f, target, &cnt, 0, 0, i);
+    
+    return cnt;
+}
+
+================================================================================================
+
