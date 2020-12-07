@@ -1,0 +1,28 @@
+//https://leetcode.com/problems/daily-temperatures/
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& T) 
+    {
+        vector<int> ret;
+        stack<int> buf;
+        int day = 0;
+        
+        for(day = 0; day < T.size(); day++)
+        {
+            ret.push_back(0);
+            
+            if(day != 0)
+            {
+                while(!buf.empty() && T[day] > T[buf.top()])
+                {
+                    ret[buf.top()] = day - buf.top();
+                    buf.pop();                    
+                }
+            }
+            buf.push(day);            
+        }
+        
+        return ret;
+    }
+};
